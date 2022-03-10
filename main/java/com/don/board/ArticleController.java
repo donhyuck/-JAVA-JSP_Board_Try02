@@ -44,7 +44,7 @@ public class ArticleController extends HttpServlet {
 			String name = request.getParameter("name");
 
 			db.articleWrite(title, body, name);
-			showList(request, response);
+			response.sendRedirect("/article/showList");
 
 		} else if (func.equals("showList")) {
 
@@ -56,6 +56,14 @@ public class ArticleController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
 			rd.forward(request, response);
 
+		} else if (func.equals("showDetail")) {
+
+			// 게시글 상세보기
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			Article article = db.getArticleByIdx(idx);
+			request.setAttribute("article", article);
+
+			forward(request, response, "/Article/showDetail.jsp");
 		}
 	}
 
@@ -68,14 +76,14 @@ public class ArticleController extends HttpServlet {
 	private void showList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ArrayList<Article> articleList = db.getArticleList(); // DB에서 데이터 받아올 틀
+		ArrayList<Article> articleList = db.getArticles(); // DB에서 데이터 받아올 틀
 		request.setAttribute("articleList", articleList); // request에 데이터를 담는다.
 
 		forward(request, response, "/Article/list.jsp");
 
 	}
 
-	// 포워드
+	// 포워드(요청정보를 재사용)
 	private void forward(HttpServletRequest request, HttpServletResponse response, String path) {
 
 		try {

@@ -29,3 +29,7 @@ updateDate=NOW(),
 title='test1',
 `body`='test1',
 `name`='관리자';
+
+# 특정 게시글 조회
+SELECT * FROM article
+WHERE idx=1;

@@ -10,15 +10,12 @@
 <body>
 	<h3>게시글 목록</h3>
 	<hr />
-	
 	<a href="/article/showAddForm">글쓰기</a>
 	<hr />
 	
 	<c:forEach items="${ articleList }" var="article">
 		번 호 : ${ article.idx }		<br />
-		등록일 : ${ article.regDate }	<br />
-		제 목 : ${ article.title }	<br />
-		내 용 : ${ article.body }		<br />
+		<a href="/article/showDetail?idx=${ article.idx }">제 목 : ${ article.title }</a>	<br />
 		작성자 : ${ article.name }	<br />
 		<hr />
 	</c:forEach>

@@ -50,10 +50,8 @@ public class ArticleDB {
 		}
 	}
 
-	// 게시글 목록 가져오기
-	public ArrayList<Article> getArticleList() {
-
-		String sql = "SELECT * FROM article";
+	// 게시글 목록 가져오기(sql에 따라 한개 혹은 여러개)
+	public ArrayList<Article> getArticleList(String sql) {
 
 		Connection conn = getConnection();
 
@@ -80,5 +78,31 @@ public class ArticleDB {
 		}
 
 		return articleList;
+	}
+
+	// 한개 가져오기
+	public Article getArticleByIdx(int idx) {
+
+		Article foundArticle = null;
+
+		String sql = String.format("SELECT * FROM article WHERE idx=%d", idx);
+
+		ArrayList<Article> articleList = getArticleList(sql);
+
+		if (articleList.size() > 0) {
+			foundArticle = articleList.get(0);
+		}
+
+		return foundArticle;
+	}
+
+	// 여러개 가져오기
+	public ArrayList<Article> getArticles() {
+
+		String sql = "SELECT * FROM article";
+
+		ArrayList<Article> articles = getArticleList(sql);
+
+		return articles;
 	}
 }
