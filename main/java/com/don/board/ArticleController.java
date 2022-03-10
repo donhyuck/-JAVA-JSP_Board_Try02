@@ -1,7 +1,9 @@
 package com.don.board;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +19,11 @@ public class ArticleController extends HttpServlet {
 			throws ServletException, IOException {
 
 		System.out.println("게시글");
+		
 		// 인코딩 설정
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-
+		
 		// 사용자가 원하는 기능 분별
 		String uri = request.getRequestURI();
 
@@ -44,7 +47,7 @@ public class ArticleController extends HttpServlet {
 
 		} else if (func.equals("showList")) {
 
-			// 게시글 목록보기
+			showList(request, response);
 
 		}
 	}
@@ -52,6 +55,18 @@ public class ArticleController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
+	}
+
+	// 게시글 목록보기
+	private void showList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		ArrayList<Article> articleList = db.getArticleList(); // DB에서 데이터 받아올 틀
+		request.setAttribute("articleList", articleList); // request에 데이터를 담는다.
+		RequestDispatcher rd = request.getRequestDispatcher("/Article/list.jsp"); // 처리결과를 해당 경로로 보낸다.
+		
+		rd.forward(request, response);
+
 	}
 
 }

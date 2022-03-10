@@ -2,7 +2,10 @@ package com.don.board;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ArticleDB {
 
@@ -45,5 +48,37 @@ public class ArticleDB {
 		} catch (Exception e) {
 			System.out.println("게시글 작성 중 문제발생");
 		}
+	}
+
+	// 게시글 목록 가져오기
+	public ArrayList<Article> getArticleList() {
+
+		String sql = "SELECT * FROM article";
+
+		Connection conn = getConnection();
+
+		ArrayList<Article> articleList = new ArrayList<>();
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				int idx = rs.getInt("idx");
+				String regDate = rs.getString("regDate");
+				String updateDate = rs.getString("updateDate");
+				String title = rs.getString("title");
+				String body = rs.getString("body");
+				String name = rs.getString("name");
+
+				Article article = new Article(idx, regDate, updateDate, title, body, name);
+				articleList.add(article);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("게시글 목록 가져오는 중 문제발생");
+		}
+
+		return articleList;
 	}
 }
