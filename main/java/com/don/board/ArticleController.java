@@ -19,11 +19,11 @@ public class ArticleController extends HttpServlet {
 			throws ServletException, IOException {
 
 		System.out.println("게시글");
-		
+
 		// 인코딩 설정
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+
 		// 사용자가 원하는 기능 분별
 		String uri = request.getRequestURI();
 
@@ -44,10 +44,17 @@ public class ArticleController extends HttpServlet {
 			String name = request.getParameter("name");
 
 			db.articleWrite(title, body, name);
+			showList(request, response);
 
 		} else if (func.equals("showList")) {
 
 			showList(request, response);
+
+		} else if (func.equals("showAddForm")) {
+
+			// 게시글 등록 페이지보기
+			RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
+			rd.forward(request, response);
 
 		}
 	}
@@ -63,10 +70,24 @@ public class ArticleController extends HttpServlet {
 
 		ArrayList<Article> articleList = db.getArticleList(); // DB에서 데이터 받아올 틀
 		request.setAttribute("articleList", articleList); // request에 데이터를 담는다.
-		RequestDispatcher rd = request.getRequestDispatcher("/Article/list.jsp"); // 처리결과를 해당 경로로 보낸다.
-		
-		rd.forward(request, response);
 
+		forward(request, response, "/Article/list.jsp");
+
+	}
+
+	// 포워드
+	private void forward(HttpServletRequest request, HttpServletResponse response, String path) {
+
+		try {
+			RequestDispatcher rd = request.getRequestDispatcher(path);
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			System.out.println("포워딩 서블릿 에러발생");
+		} catch (IOException e) {
+			System.out.println("입출력 중 에러발생");
+		} catch (Exception e) {
+			System.out.println("포워딩 중 에러발생");
+		}
 	}
 
 }

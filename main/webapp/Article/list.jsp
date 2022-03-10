@@ -11,6 +11,9 @@
 	<h3>게시글 목록</h3>
 	<hr />
 	
+	<a href="/article/showAddForm">글쓰기</a>
+	<hr />
+	
 	<c:forEach items="${ articleList }" var="article">
 		번 호 : ${ article.idx }		<br />
 		등록일 : ${ article.regDate }	<br />
