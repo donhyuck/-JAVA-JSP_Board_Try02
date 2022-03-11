@@ -123,4 +123,21 @@ public class ArticleDB {
 		}
 
 	}
+
+	// 게시글 삭제하기
+	public void articleDelete(int idx) {
+
+		String sql = String.format("DELETE FROM article WHERE idx=%d", idx);
+
+		Connection conn = getConnection();
+		Statement stmt = null;
+
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (Exception e) {
+			System.out.println("게시글 삭제 중 문제발생");
+		}
+
+	}
 }

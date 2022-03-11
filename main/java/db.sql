@@ -40,3 +40,7 @@ SET updateDate=NOW(),
 title='test11',
 `body`='test11'
 WHERE idx=5;
+
+# 게시글 삭제
+DELETE FROM article
+WHERE idx=2;
