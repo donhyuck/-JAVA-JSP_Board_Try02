@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/*")
+@WebServlet("*.do")
 public class MemberController extends HttpServlet {
 
 	MemberDB db = new MemberDB();
@@ -58,7 +58,7 @@ public class MemberController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		if (func.equals("join")) {
+		if (func.equals("join.do")) {
 
 			join(request, response);
 
@@ -72,17 +72,32 @@ public class MemberController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		if (func.equals("showList")) {
+		if (func.equals("showJoinForm.do")) {
 
-			//
+			showJoinForm(request, response);
 
 		}
 	}
 
 	// 회원가입
-	private void join(HttpServletRequest request, HttpServletResponse response) {
+	private void join(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		// 아이디, 비밀번호, 이름
+		String loginId = request.getParameter("loginId");
+		String loginPw = request.getParameter("loginPw");
+		String name = request.getParameter("name");
+
+		db.memberJoin(loginId, loginPw, name);
+
+		response.sendRedirect("/article/showList");
+
+	}
+
+	// 회원 가입 페이지 보기
+	private void showJoinForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		RequestDispatcher rd = request.getRequestDispatcher("/Member/joinForm.jsp");
+		rd.forward(request, response);
 
 	}
 

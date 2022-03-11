@@ -59,3 +59,10 @@ CREATE TABLE `member` (
 
 # 전체 회원 조회
 SELECT * FROM `member`;
+
+# 회원가입
+INSERT INTO `member`
+SET regDate=NOW(),
+loginId='admin',
+loginPw='admin',
+`name`='관리자';

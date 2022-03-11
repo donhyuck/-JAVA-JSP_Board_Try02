@@ -10,6 +10,7 @@
 <body>
 	<h3>게시글 목록</h3>
 	<hr />
+	<a href="/member/showJoinForm.do">회원가입</a>
 	<a href="/article/showAddForm">글쓰기</a>
 	<hr />
 	
