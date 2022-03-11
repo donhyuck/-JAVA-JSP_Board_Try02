@@ -27,7 +27,7 @@
 		<input type="submit" value="수정">
 	</form>
 	
-	<form action="/article/delete">
+	<form action="/article/delete"  method="POST">
 		<input type="hidden" name="idx" value="${ article.idx }">
 		<input type="submit" value="삭제">
 	</form>

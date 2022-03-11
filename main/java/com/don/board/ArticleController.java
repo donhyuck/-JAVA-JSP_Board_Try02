@@ -15,10 +15,8 @@ public class ArticleController extends HttpServlet {
 
 	ArticleDB db = new ArticleDB();
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		System.out.println("게시글");
 
 		// 인코딩 설정
 		response.setCharacterEncoding("UTF-8");
@@ -36,6 +34,29 @@ public class ArticleController extends HttpServlet {
 
 		String func = uriPieces[2];
 
+		// POST, GET 처리구분
+		String method = request.getMethod();
+
+		request.setAttribute("func", func);
+
+		if (method.equals("POST")) {
+
+			postProcess(request, response);
+
+		} else if (method.equals("GET")) {
+
+			getProcess(request, response);
+
+		}
+
+	}
+
+	// 자원을 처리할때 사용
+	protected void postProcess(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String func = (String) request.getAttribute("func");
+
 		if (func.equals("write")) {
 
 			// 게시글 작성하기
@@ -46,7 +67,37 @@ public class ArticleController extends HttpServlet {
 			db.articleWrite(title, body, name);
 			response.sendRedirect("/article/showList");
 
-		} else if (func.equals("showList")) {
+		} else if (func.equals("modify")) {
+
+			// 게시글 수정하기
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+
+			db.articleModify(idx, title, body);
+
+			response.sendRedirect("/article/showDetail?idx=" + idx);
+
+		} else if (func.equals("delete")) {
+
+			// 게시글 삭제하기
+			int idx = Integer.parseInt(request.getParameter("idx"));
+
+			db.articleDelete(idx);
+
+			response.sendRedirect("/article/showList");
+
+		}
+
+	}
+
+	// 자원을 가져올때 사용
+	protected void getProcess(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String func = (String) request.getAttribute("func");
+
+		if (func.equals("showList")) {
 
 			showList(request, response);
 
@@ -74,32 +125,7 @@ public class ArticleController extends HttpServlet {
 
 			forward(request, response, "/Article/modifyForm.jsp");
 
-		} else if (func.equals("modify")) {
-
-			// 게시글 수정하기
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-
-			db.articleModify(idx, title, body);
-
-			response.sendRedirect("/article/showDetail?idx=" + idx);
-
-		} else if (func.equals("delete")) {
-
-			// 게시글 삭제하기
-			int idx = Integer.parseInt(request.getParameter("idx"));
-
-			db.articleDelete(idx);
-
-			response.sendRedirect("/article/showList");
-
 		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
 	}
 
 	// 게시글 목록보기

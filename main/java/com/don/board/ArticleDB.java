@@ -39,15 +39,7 @@ public class ArticleDB {
 				"INSERT INTO article SET regDate=NOW(), updateDate=NOW(), title='%s', `body`='%s', `name`='%s'", title,
 				body, name);
 
-		Connection conn = getConnection();
-		Statement stmt = null;
-
-		try {
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (Exception e) {
-			System.out.println("게시글 작성 중 문제발생");
-		}
+		updateQuery(sql);
 	}
 
 	// 게시글 목록 가져오기(sql에 따라 한개 혹은 여러개)
@@ -106,11 +98,8 @@ public class ArticleDB {
 		return articles;
 	}
 
-	// 게시글 수정하기
-	public void articleModify(int idx, String title, String body) {
-
-		String sql = String.format("UPDATE article SET updateDate=NOW(), title='%s', `body`='%s' WHERE idx=%d", title,
-				body, idx);
+	// 연결과 쿼리 부분에서의 공통부분을 묶는다.
+	private void updateQuery(String sql) {
 
 		Connection conn = getConnection();
 		Statement stmt = null;
@@ -119,9 +108,18 @@ public class ArticleDB {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (Exception e) {
-			System.out.println("게시글 수정 중 문제발생");
+			e.printStackTrace();
 		}
 
+	}
+
+	// 게시글 수정하기
+	public void articleModify(int idx, String title, String body) {
+
+		String sql = String.format("UPDATE article SET updateDate=NOW(), title='%s', `body`='%s' WHERE idx=%d", title,
+				body, idx);
+
+		updateQuery(sql);
 	}
 
 	// 게시글 삭제하기
@@ -129,15 +127,6 @@ public class ArticleDB {
 
 		String sql = String.format("DELETE FROM article WHERE idx=%d", idx);
 
-		Connection conn = getConnection();
-		Statement stmt = null;
-
-		try {
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (Exception e) {
-			System.out.println("게시글 삭제 중 문제발생");
-		}
-
+		updateQuery(sql);
 	}
 }

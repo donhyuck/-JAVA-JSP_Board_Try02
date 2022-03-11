@@ -9,7 +9,7 @@
 <body>
 	<h3>게시물 수정</h3>
 	
-	<form action="/article/modify">
+	<form action="/article/modify"  method="POST">
 		<input type="hidden" name="idx" value="${ article.idx }"/>
 		새 제목 : <input type="text" name="title" value="${ article.title }"/>	<br />
 		새 내용 : <input type="text" name="body" value="${ article.body }"/>		<br />
