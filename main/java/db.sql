@@ -44,3 +44,18 @@ WHERE idx=5;
 # 게시글 삭제
 DELETE FROM article
 WHERE idx=2;
+
+# 회원 테이블 삭제
+DROP TABLE `member`;
+
+# 회원 테이블 생성
+CREATE TABLE `member` (
+	idx INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	loginId VARCHAR(50) NOT NULL,
+	loginPw VARCHAR(50) NOT NULL,
+	`name` VARCHAR(30) NOT NULL
+);
+
+# 전체 회원 조회
+SELECT * FROM `member`;
