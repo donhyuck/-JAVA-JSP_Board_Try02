@@ -33,3 +33,10 @@ title='test1',
 # 특정 게시글 조회
 SELECT * FROM article
 WHERE idx=1;
+
+# 게시글 수정
+UPDATE article
+SET updateDate=NOW(),
+title='test11',
+`body`='test11'
+WHERE idx=5;

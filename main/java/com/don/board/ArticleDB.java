@@ -105,4 +105,22 @@ public class ArticleDB {
 
 		return articles;
 	}
+
+	// 게시글 수정하기
+	public void articleModify(int idx, String title, String body) {
+
+		String sql = String.format("UPDATE article SET updateDate=NOW(), title='%s', `body`='%s' WHERE idx=%d", title,
+				body, idx);
+
+		Connection conn = getConnection();
+		Statement stmt = null;
+
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (Exception e) {
+			System.out.println("게시글 수정 중 문제발생");
+		}
+
+	}
 }

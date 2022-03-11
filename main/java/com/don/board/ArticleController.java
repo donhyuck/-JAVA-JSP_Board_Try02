@@ -64,6 +64,26 @@ public class ArticleController extends HttpServlet {
 			request.setAttribute("article", article);
 
 			forward(request, response, "/Article/showDetail.jsp");
+
+		} else if (func.equals("showModifyForm")) {
+
+			// 게시글 수정 페이지 보기
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			Article article = db.getArticleByIdx(idx);
+			request.setAttribute("article", article);
+
+			forward(request, response, "/Article/modifyForm.jsp");
+
+		} else if (func.equals("modify")) {
+
+			// 게시글 수정하기
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+
+			db.articleModify(idx, title, body);
+
+			response.sendRedirect("/article/showDetail?idx=" + idx);
 		}
 	}
 
