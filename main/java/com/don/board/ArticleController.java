@@ -21,6 +21,7 @@ public class ArticleController extends HttpServlet {
 		// 인코딩 설정
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
 
 		// 사용자가 원하는 기능 분별
 		String uri = request.getRequestURI();
@@ -59,33 +60,15 @@ public class ArticleController extends HttpServlet {
 
 		if (func.equals("write")) {
 
-			// 게시글 작성하기
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			String name = request.getParameter("name");
-
-			db.articleWrite(title, body, name);
-			response.sendRedirect("/article/showList");
+			write(request, response);
 
 		} else if (func.equals("modify")) {
 
-			// 게시글 수정하기
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-
-			db.articleModify(idx, title, body);
-
-			response.sendRedirect("/article/showDetail?idx=" + idx);
+			modify(request, response);
 
 		} else if (func.equals("delete")) {
 
-			// 게시글 삭제하기
-			int idx = Integer.parseInt(request.getParameter("idx"));
-
-			db.articleDelete(idx);
-
-			response.sendRedirect("/article/showList");
+			delete(request, response);
 
 		}
 
@@ -103,29 +86,51 @@ public class ArticleController extends HttpServlet {
 
 		} else if (func.equals("showAddForm")) {
 
-			// 게시글 등록 페이지보기
-			RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
-			rd.forward(request, response);
-
-		} else if (func.equals("showDetail")) {
-
-			// 게시글 상세보기
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			Article article = db.getArticleByIdx(idx);
-			request.setAttribute("article", article);
-
-			forward(request, response, "/Article/showDetail.jsp");
+			showAddForm(request, response);
 
 		} else if (func.equals("showModifyForm")) {
 
-			// 게시글 수정 페이지 보기
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			Article article = db.getArticleByIdx(idx);
-			request.setAttribute("article", article);
+			showModifyForm(request, response);
 
-			forward(request, response, "/Article/modifyForm.jsp");
+		} else if (func.equals("showDetail")) {
+
+			showDetail(request, response);
 
 		}
+	}
+
+	// 게시글 작성하기
+	private void write(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+		String name = request.getParameter("name");
+
+		db.articleWrite(title, body, name);
+
+		showList(request, response);
+	}
+
+	// 게시글 수정하기
+	private void modify(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+
+		db.articleModify(idx, title, body);
+
+		response.sendRedirect("/article/showDetail?idx=" + idx);
+	}
+
+	// 게시글 삭제하기
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+
+		db.articleDelete(idx);
+
+		response.sendRedirect("/article/showList");
 	}
 
 	// 게시글 목록보기
@@ -137,6 +142,34 @@ public class ArticleController extends HttpServlet {
 
 		forward(request, response, "/Article/list.jsp");
 
+	}
+
+	// 게시글 등록 페이지보기
+	private void showAddForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
+		rd.forward(request, response);
+	}
+
+	// 게시글 수정 페이지 보기
+	private void showModifyForm(HttpServletRequest request, HttpServletResponse response) {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		Article article = db.getArticleByIdx(idx);
+		request.setAttribute("article", article);
+
+		forward(request, response, "/Article/modifyForm.jsp");
+	}
+
+	// 게시글 상세보기
+	private void showDetail(HttpServletRequest request, HttpServletResponse response) {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		Article article = db.getArticleByIdx(idx);
+		request.setAttribute("article", article);
+
+		forward(request, response, "/Article/showDetail.jsp");
 	}
 
 	// 포워드(요청정보를 재사용)
