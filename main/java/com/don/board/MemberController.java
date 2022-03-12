@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +68,7 @@ public class MemberController extends HttpServlet {
 
 			login(request, response);
 
-		} 
+		}
 
 	}
 
@@ -137,6 +138,14 @@ public class MemberController extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginedUserName", member.getName());
 
+			// 쿠키 추가(리다이렉트 전에 쿠키 정보를 넣는다.)
+			Cookie popupCookie = new Cookie("popup", "true");
+
+			// 쿠키 설정
+			popupCookie.setPath("/");
+			popupCookie.setMaxAge(60 * 10); // 10분 간 유지
+
+			response.addCookie(popupCookie);
 			response.sendRedirect("/article/showList");
 
 		} else {

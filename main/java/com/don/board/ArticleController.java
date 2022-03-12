@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -139,6 +140,17 @@ public class ArticleController extends HttpServlet {
 
 		ArrayList<Article> articleList = db.getArticles(); // DB에서 데이터 받아올 틀
 		request.setAttribute("articleList", articleList); // request에 데이터를 담는다.
+
+		// 팝업 추가
+		Cookie[] cookies = request.getCookies();
+
+		if (cookies != null) {
+			for (Cookie c : cookies) {
+				if (c.getName().equals("popup")) {
+					request.setAttribute("popup", c.getValue());
+				}
+			}
+		}
 
 		forward(request, response, "/Article/list.jsp");
 

@@ -9,7 +9,11 @@
 </head>
 <body>
 	<h3>게시글 목록</h3>
+	<c:if test="${ popup == null }">
+		<h6>===== 팝업 =====</h6>
+	</c:if>
 	<hr />
+	
 	<c:choose>
 		<c:when test="${ loginedUserName == null }">
 			<a href="/member/showLoginForm.do">로그인</a>
