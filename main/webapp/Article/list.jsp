@@ -11,12 +11,13 @@
 	<h3>게시글 목록</h3>
 	<hr />
 	<c:choose>
-		<c:when test="${ logineddUserName == null }">
+		<c:when test="${ loginedUserName == null }">
 			<a href="/member/showLoginForm.do">로그인</a>
 		</c:when>
 		
 		<c:otherwise>
-			${ logineddUserName }님 환영합니다!
+			${ loginedUserName }님 환영합니다!
+			<a href="/member/logout.do">로그아웃</a>
 		</c:otherwise>
 	</c:choose>
 	<hr />

@@ -1,7 +1,6 @@
 package com.don.board;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("*.do")
 public class MemberController extends HttpServlet {
@@ -67,7 +67,7 @@ public class MemberController extends HttpServlet {
 
 			login(request, response);
 
-		}
+		} 
 
 	}
 
@@ -84,6 +84,10 @@ public class MemberController extends HttpServlet {
 		} else if (func.equals("showLoginForm.do")) {
 
 			showLoginForm(request, response);
+
+		} else if (func.equals("logout.do")) {
+
+			logout(request, response);
 
 		}
 	}
@@ -119,7 +123,7 @@ public class MemberController extends HttpServlet {
 	}
 
 	// 로그인 처리
-	private void login(HttpServletRequest request, HttpServletResponse response) {
+	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String loginId = request.getParameter("loginId");
 		String loginPw = request.getParameter("loginPw");
@@ -130,16 +134,25 @@ public class MemberController extends HttpServlet {
 
 			Member member = db.getMemberBymemberIdx(memberIdx);
 
-			request.setAttribute("logineddUserName", member.getName());
+			HttpSession session = request.getSession();
+			session.setAttribute("loginedUserName", member.getName());
 
-			ArrayList<Article> articleList = adb.getArticles();
-			request.setAttribute("articleList", articleList);
-
-			forward(request, response, "/Article/list.jsp");
+			response.sendRedirect("/article/showList");
 
 		} else {
 			System.out.println("로그인 실패");
+			response.sendRedirect("/article/showList");
 		}
+	}
+
+	// 로그아웃 처리
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		HttpSession session = request.getSession();
+		session.removeAttribute("loginedUserName");
+
+		response.sendRedirect("/article/showList");
+
 	}
 
 	// 포워드(요청정보를 재사용)
