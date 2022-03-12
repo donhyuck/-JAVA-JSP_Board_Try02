@@ -10,7 +10,15 @@
 <body>
 	<h3>게시글 목록</h3>
 	<hr />
-	<a href="/member/showLoginForm.do">로그인</a>
+	<c:choose>
+		<c:when test="${ logineddUserName == null }">
+			<a href="/member/showLoginForm.do">로그인</a>
+		</c:when>
+		
+		<c:otherwise>
+			${ logineddUserName }님 환영합니다!
+		</c:otherwise>
+	</c:choose>
 	<hr />
 	
 	<a href="/member/showJoinForm.do">회원가입</a>
