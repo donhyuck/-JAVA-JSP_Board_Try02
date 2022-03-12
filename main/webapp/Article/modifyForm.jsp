@@ -9,6 +9,8 @@
 <body>
 	<h3>게시물 수정</h3>
 	
+	<%@ include file="header.jspf" %>
+	
 	<form action="/article/modify"  method="POST">
 		<input type="hidden" name="idx" value="${ article.idx }"/>
 		새 제목 : <input type="text" name="title" value="${ article.title }"/>	<br />

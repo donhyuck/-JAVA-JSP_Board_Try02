@@ -14,17 +14,7 @@
 	</c:if>
 	<hr />
 	
-	<c:choose>
-		<c:when test="${ loginedUserName == null }">
-			<a href="/member/showLoginForm.do">로그인</a>
-		</c:when>
-		
-		<c:otherwise>
-			${ loginedUserName }님 환영합니다!
-			<a href="/member/logout.do">로그아웃</a>
-		</c:otherwise>
-	</c:choose>
-	<hr />
+	<%@ include file="header.jspf" %>
 	
 	<a href="/member/showJoinForm.do">회원가입</a>
 	<a href="/article/showAddForm">글쓰기</a>
