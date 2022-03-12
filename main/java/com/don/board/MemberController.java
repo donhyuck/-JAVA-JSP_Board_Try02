@@ -20,11 +20,6 @@ public class MemberController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// 인코딩 설정
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
-
 		// 사용자가 원하는 기능 분별
 		String uri = request.getRequestURI();
 
