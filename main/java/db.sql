@@ -66,3 +66,7 @@ SET regDate=NOW(),
 loginId='admin',
 loginPw='admin',
 `name`='관리자';
+
+# 로그인 정보와 일치하는 회원번호 가져오기
+SELECT idx FROM `member`
+WHERE loginId='test1' AND loginPw='test1';

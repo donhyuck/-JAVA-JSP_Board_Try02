@@ -1,7 +1,6 @@
 package com.don.board;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -62,6 +61,10 @@ public class MemberController extends HttpServlet {
 
 			join(request, response);
 
+		} else if (func.equals("login.do")) {
+
+			login(request, response);
+
 		}
 
 	}
@@ -75,6 +78,10 @@ public class MemberController extends HttpServlet {
 		if (func.equals("showJoinForm.do")) {
 
 			showJoinForm(request, response);
+
+		} else if (func.equals("showLoginForm.do")) {
+
+			showLoginForm(request, response);
 
 		}
 	}
@@ -99,6 +106,31 @@ public class MemberController extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/Member/joinForm.jsp");
 		rd.forward(request, response);
 
+	}
+
+	// 회원 로그인 페이지 보기
+	private void showLoginForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		forward(request, response, "/Member/loginForm.jsp");
+		
+	}
+
+	// 로그인 처리
+	private void login(HttpServletRequest request, HttpServletResponse response) {
+
+		String loginId = request.getParameter("loginId");
+		String loginPw = request.getParameter("loginPw");
+
+		int memberIdx = db.getMemberIdxByLoginInfo(loginId, loginPw);
+
+		if (memberIdx != 0) {
+
+			Member member = db.getMemberBymemberIdx(memberIdx);
+
+		} else {
+			System.out.println("로그인 실패");
+		}
 	}
 
 	// 포워드(요청정보를 재사용)
