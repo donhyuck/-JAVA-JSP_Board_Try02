@@ -10,6 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/article/*")
 public class ArticleController extends HttpServlet {
@@ -154,6 +155,10 @@ public class ArticleController extends HttpServlet {
 	// 게시글 등록 페이지보기
 	private void showAddForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		// 로그인한 회원의 이름
+		HttpSession session = request.getSession();
+		String loginedUserName = (String) request.getAttribute("loginedUserName");
 
 		RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
 		rd.forward(request, response);
