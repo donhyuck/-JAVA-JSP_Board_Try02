@@ -47,7 +47,6 @@
 		<input type="text" name="body" placeholder="여기에 댓글을 작성하세요."/> <br />
 		<input type="hidden" name="articleIdx" value="${ article.idx }">
 		<input type="hidden" name="name" value="${ loginedUserName }">
-		<input type="hidden" name="memberIdx" value="${ loginedUserIdx }">
 		<input type="submit" value="댓글 남기기">
 	</form>
 	</h5>
@@ -60,7 +59,7 @@
 			${ reply.body }		<br />
 			${ reply.regDate }	<br />
 			
-			<c:if test="${ reply.memberIdx == loginedUserIdx }">
+			<c:if test="${ reply.name == loginedUserName }">
 				<!-- 댓글 수정 및 삭제 영역 -->
 				<div>
 					<form action="/article/showReplyModifyForm">

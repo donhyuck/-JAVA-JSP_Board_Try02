@@ -208,11 +208,10 @@ public class ArticleController extends HttpServlet {
 	private void replyWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
-		int memberIdx = Integer.parseInt(request.getParameter("memberIdx"));
 		String body = request.getParameter("body");
 		String name = request.getParameter("name");
 
-		rdb.replyWrite(articleIdx, memberIdx, body, name);
+		rdb.replyWrite(articleIdx, body, name);
 
 		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
 

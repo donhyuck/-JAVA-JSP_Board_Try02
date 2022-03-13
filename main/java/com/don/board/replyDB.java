@@ -47,11 +47,11 @@ public class replyDB {
 	}
 
 	// 댓글 등록하기
-	public void replyWrite(int articleIdx, int memberIdx, String body, String name) {
+	public void replyWrite(int articleIdx, String body, String name) {
 
 		String sql = String.format(
-				"INSERT INTO articleReply SET regDate=NOW(), articleIdx=%d, memberIdx=%d, `body`='%s', `name`='%s'",
-				articleIdx, memberIdx, body, name);
+				"INSERT INTO articleReply SET regDate=NOW(), articleIdx=%d, `body`='%s', `name`='%s'", articleIdx, body,
+				name);
 
 		updateQuery(sql);
 
@@ -80,11 +80,10 @@ public class replyDB {
 				int idx = rs.getInt("idx");
 				String regDate = rs.getString("regDate");
 				int articleIdx = rs.getInt("articleIdx");
-				int memberIdx = rs.getInt("memberIdx");
 				String body = rs.getString("body");
 				String name = rs.getString("name");
 
-				Reply reply = new Reply(idx, regDate, articleIdx, memberIdx, body, name);
+				Reply reply = new Reply(idx, regDate, articleIdx, body, name);
 				replyList.add(reply);
 			}
 

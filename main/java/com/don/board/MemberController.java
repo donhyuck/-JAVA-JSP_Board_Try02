@@ -132,7 +132,6 @@ public class MemberController extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			session.setAttribute("loginedUserName", member.getName());
-			session.setAttribute("loginedUserIdx", member.getIdx());
 
 			// 쿠키 추가(리다이렉트 전에 쿠키 정보를 넣는다.)
 			Cookie popupCookie = new Cookie("popup", "true");
