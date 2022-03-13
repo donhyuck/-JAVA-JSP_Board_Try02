@@ -96,3 +96,21 @@ SET regDate=NOW(),
 articleIdx=1,
 `body`='replyTest1',
 `name`='관리자';
+
+# 게시글에 해당하는 댓글 목록 가져오기
+SELECT * FROM articleReply
+WHERE articleIdx=1;
+
+# 특정 댓글 가져오기
+SELECT * FROM articleReply
+WHERE idx=1;
+
+# 댓글 수정하기
+UPDATE articleReply
+SET regDate=NOW(),
+`body`='댓글 수정!'
+WHERE idx=2;
+
+# 댓글 삭제하기
+DELETE FROM articleReply
+WHERE idx=4;

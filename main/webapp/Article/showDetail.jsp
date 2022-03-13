@@ -49,10 +49,27 @@
 	
 	<!-- 댓글 목록영역 -->
 	<c:forEach items="${ replyList }" var="reply">
-		${ reply.name }		<br />
-		${ reply.body }		<br />
-		${ reply.regDate }	<br />
-		<hr />
+		<div>
+			${ reply.name }		<br />
+			${ reply.body }		<br />
+			${ reply.regDate }	<br />
+		
+			<!-- 댓글 수정 및 삭제 영역 -->
+			<div>
+				<form action="/article/showReplyModifyForm">
+					<input type="hidden" name="idx" value="${ reply.idx }">
+					<input type="submit" value="수정">
+				</form>
+				
+				<form action="/article/replyDelete" method="POST">
+					<input type="hidden" name="idx" value="${ reply.idx }">
+					<input type="hidden" name="articleIdx" value="${ reply.articleIdx }">
+					<input type="submit" value="삭제">
+				</form>
+			
+			</div>
+			<hr />
+		</div>
 	</c:forEach>
 	
 

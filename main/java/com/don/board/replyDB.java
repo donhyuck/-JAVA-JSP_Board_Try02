@@ -93,4 +93,33 @@ public class replyDB {
 
 		return replyList;
 	}
+
+	public Reply getReplyByIdx(int idx) {
+
+		Reply foundReply = null;
+
+		String sql = String.format("SELECT * FROM articleReply WHERE idx=%d", idx);
+
+		ArrayList<Reply> reply = getReplyList(sql);
+
+		if (reply.size() > 0) {
+			foundReply = reply.get(0);
+		}
+
+		return foundReply;
+	}
+
+	public void replyModify(int idx, String body) {
+
+		String sql = String.format("UPDATE articleReply SET regDate=NOW(), `body`='%s' WHERE idx='%d'", body, idx);
+
+		updateQuery(sql);
+	}
+
+	public void replyDelete(int idx) {
+
+		String sql = String.format("DELETE FROM articleReply WHERE idx=%d", idx);
+
+		updateQuery(sql);
+	}
 }
