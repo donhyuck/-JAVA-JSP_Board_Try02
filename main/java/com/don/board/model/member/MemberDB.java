@@ -7,44 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.don.board.model.article.CommonDB;
+
 public class MemberDB {
 
-	// DBMS 접속정보 세팅
-	String url = "jdbc:mysql://localhost:3306/jsptry?serverTimezone=UTC";
-	String user = "root";
-	String pass = "";
-
-	// 드라이버 정보
-	String driver = "com.mysql.cj.jdbc.Driver";
-
-	private Connection getConnection() {
-
-		Connection conn = null;
-
-		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, pass);
-
-		} catch (Exception e) {
-			System.out.println("Connection 중 문제 발생");
-		}
-
-		return conn;
-	}
-
-	private void updateQuery(String sql) {
-
-		Connection conn = getConnection();
-		Statement stmt = null;
-
-		try {
-			stmt = conn.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+	CommonDB cdb = new CommonDB();
 
 	// 회원가입
 	public void memberJoin(String loginId, String loginPw, String name) {
@@ -52,7 +19,7 @@ public class MemberDB {
 		String sql = String.format("INSERT INTO `member` SET regDate=NOW(), loginId='%s', loginPw='%s', `name`='%s'",
 				loginId, loginPw, name);
 
-		updateQuery(sql);
+		cdb.updateQuery(sql);
 	}
 
 	// 로그인 정보와 일치하는 회원번호 가져오기
@@ -60,7 +27,7 @@ public class MemberDB {
 
 		String sql = String.format("SELECT idx FROM `member` WHERE loginId='%s' AND loginPw='%s'", loginId, loginPw);
 
-		Connection conn = getConnection();
+		Connection conn = cdb.getConnection();
 		int foundMemberIdx = 0;
 
 		try {
@@ -85,7 +52,7 @@ public class MemberDB {
 
 		String sql = String.format("SELECT * FROM `member` WHERE idx=%d", memberIdx);
 
-		ArrayList<Member> memberList = getMemberList(sql); // 전체 회원 중 회원번호와 일치하는 회원 가져오기
+		ArrayList<Member> memberList = cdb.selectList(sql, new MemberRowMapper()); // 전체 회원 중 회원번호와 일치하는 회원 가져오기
 
 		if (memberList.size() > 0) {
 			foundMember = memberList.get(0);
@@ -93,34 +60,4 @@ public class MemberDB {
 
 		return foundMember;
 	}
-
-	// 전체 회원 가져오기
-	private ArrayList<Member> getMemberList(String sql) {
-
-		Connection conn = getConnection();
-
-		ArrayList<Member> memberList = new ArrayList<>();
-
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				int idx = rs.getInt("idx");
-				String regDate = rs.getString("regDate");
-				String loginId = rs.getString("loginId");
-				String loginPw = rs.getString("loginPw");
-				String name = rs.getString("name");
-
-				Member member = new Member(idx, regDate, loginId, loginPw, name);
-				memberList.add(member);
-			}
-
-		} catch (SQLException e) {
-			System.out.println("회원 목록 가져오는 중 문제발생");
-		}
-
-		return memberList;
-	}
-
 }
