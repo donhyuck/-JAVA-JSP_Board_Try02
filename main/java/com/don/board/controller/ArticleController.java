@@ -1,4 +1,4 @@
-package com.don.board;
+package com.don.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.don.board.model.article.Article;
+import com.don.board.model.article.ArticleDB;
+import com.don.board.model.article.Reply;
+import com.don.board.model.article.replyDB;
 
 @WebServlet("/article/*")
 public class ArticleController extends HttpServlet {
@@ -147,6 +152,40 @@ public class ArticleController extends HttpServlet {
 		response.sendRedirect("/article/showList");
 	}
 
+	// 댓글 등록하기
+	private void replyWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+		String body = request.getParameter("body");
+		String name = request.getParameter("name");
+
+		rdb.replyWrite(articleIdx, body, name);
+
+		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
+
+	}
+
+	// 댓글 수정하기
+	private void replyModify(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+		String body = request.getParameter("body");
+
+		rdb.replyModify(idx, body);
+		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
+	}
+
+	// 댓글 삭제하기
+	private void replyDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+
+		rdb.replyDelete(idx);
+		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
+	}
+
 	// 게시글 목록보기
 	private void showList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -204,19 +243,6 @@ public class ArticleController extends HttpServlet {
 		forward(request, response, "/Article/showDetail.jsp");
 	}
 
-	// 댓글 등록하기
-	private void replyWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
-		String body = request.getParameter("body");
-		String name = request.getParameter("name");
-
-		rdb.replyWrite(articleIdx, body, name);
-
-		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
-
-	}
-
 	// 댓글 수정 페이지보기
 	private void showReplyModifyForm(HttpServletRequest request, HttpServletResponse response) {
 
@@ -225,27 +251,6 @@ public class ArticleController extends HttpServlet {
 		request.setAttribute("reply", reply);
 
 		forward(request, response, "/Article/replyModifyForm.jsp");
-	}
-
-	// 댓글 수정하기
-	private void replyModify(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		int idx = Integer.parseInt(request.getParameter("idx"));
-		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
-		String body = request.getParameter("body");
-
-		rdb.replyModify(idx, body);
-		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
-	}
-
-	// 댓글 삭제하기
-	private void replyDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		int idx = Integer.parseInt(request.getParameter("idx"));
-		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
-
-		rdb.replyDelete(idx);
-		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
 	}
 
 	// 포워드(요청정보를 재사용)

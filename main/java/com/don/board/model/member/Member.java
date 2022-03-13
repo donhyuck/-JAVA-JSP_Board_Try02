@@ -1,19 +1,19 @@
-package com.don.board;
+package com.don.board.model.member;
 
-public class Reply {
+public class Member {
 
 	private int idx;
 	private String regDate;
-	private int articleIdx;
-	private String body;
+	private String loginId;
+	private String loginPw;
 	private String name;
 
-	public Reply(int idx, String regDate, int articleIdx, String body, String name) {
+	public Member(int idx, String regDate, String loginId, String loginPw, String name) {
 		super();
 		this.idx = idx;
 		this.regDate = regDate;
-		this.articleIdx = articleIdx;
-		this.body = body;
+		this.loginId = loginId;
+		this.loginPw = loginPw;
 		this.name = name;
 	}
 
@@ -33,20 +33,20 @@ public class Reply {
 		this.regDate = regDate;
 	}
 
-	public int getArticleIdx() {
-		return articleIdx;
+	public String getLoginId() {
+		return loginId;
 	}
 
-	public void setArticleIdx(int articleIdx) {
-		this.articleIdx = articleIdx;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
-	public String getBody() {
-		return body;
+	public String getLoginPw() {
+		return loginPw;
 	}
 
-	public void setBody(String body) {
-		this.body = body;
+	public void setLoginPw(String loginPw) {
+		this.loginPw = loginPw;
 	}
 
 	public String getName() {

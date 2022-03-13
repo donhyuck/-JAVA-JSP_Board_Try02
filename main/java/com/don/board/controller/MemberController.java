@@ -1,4 +1,4 @@
-package com.don.board;
+package com.don.board.controller;
 
 import java.io.IOException;
 
@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.don.board.model.article.ArticleDB;
+import com.don.board.model.member.Member;
+import com.don.board.model.member.MemberDB;
 
 @WebServlet("*.do")
 public class MemberController extends HttpServlet {
@@ -101,23 +105,6 @@ public class MemberController extends HttpServlet {
 
 	}
 
-	// 회원 가입 페이지 보기
-	private void showJoinForm(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		RequestDispatcher rd = request.getRequestDispatcher("/Member/joinForm.jsp");
-		rd.forward(request, response);
-
-	}
-
-	// 회원 로그인 페이지 보기
-	private void showLoginForm(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		forward(request, response, "/Member/loginForm.jsp");
-
-	}
-
 	// 로그인 처리
 	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -147,6 +134,23 @@ public class MemberController extends HttpServlet {
 			System.out.println("로그인 실패");
 			response.sendRedirect("/article/showList");
 		}
+	}
+
+	// 회원 가입 페이지 보기
+	private void showJoinForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		RequestDispatcher rd = request.getRequestDispatcher("/Member/joinForm.jsp");
+		rd.forward(request, response);
+
+	}
+
+	// 회원 로그인 페이지 보기
+	private void showLoginForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		forward(request, response, "/Member/loginForm.jsp");
+
 	}
 
 	// 로그아웃 처리
