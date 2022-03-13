@@ -9,9 +9,8 @@
 </head>
 <body>
 
-	<a href="/article/showList">공지사항</a>
-	<a href="#">질문과 답변</a>
-	<a href="/address/showAddrMenu">주소록 메뉴</a>
+	<a href="/article/showList">게시판 이동</a>	
+	<a href="/article/showAddrMenu">주소록 메뉴</a>		<br />
 	<hr />
 
 	<c:choose>

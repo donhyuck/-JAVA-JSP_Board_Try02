@@ -114,3 +114,17 @@ WHERE idx=2;
 # 댓글 삭제하기
 DELETE FROM articleReply
 WHERE idx=4;
+
+# 주소록 테이블 삭제
+DROP TABLE address;
+
+# 주소록 테이블 생성
+CREATE TABLE address (
+	idx INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	addr VARCHAR(50) NOT NULL,
+	phone VARCHAR(14) NOT NULL,
+	`name` VARCHAR(20) NOT NULL
+);
+
+# 전체 주소록 조회
+SELECT * FROM address;
