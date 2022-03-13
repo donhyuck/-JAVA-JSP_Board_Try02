@@ -185,9 +185,14 @@ public class ArticleController extends HttpServlet {
 		Article article = db.getArticleByIdx(idx);
 		request.setAttribute("article", article);
 
+		// 해당 게시글의 댓글 목록 보기
+		ArrayList<Reply> replyList = rdb.getReplyListByArticleIdx(idx);
+		request.setAttribute("replyList", replyList);
+
 		forward(request, response, "/Article/showDetail.jsp");
 	}
 
+	// 댓글 등록하기
 	private void replyWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
@@ -196,7 +201,7 @@ public class ArticleController extends HttpServlet {
 
 		rdb.replyWrite(articleIdx, body, name);
 
-		response.sendRedirect("/article/showDetail?idx=?" + articleIdx);
+		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
 
 	}
 

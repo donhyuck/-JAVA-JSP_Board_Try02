@@ -2,7 +2,10 @@ package com.don.board;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class replyDB {
 
@@ -52,5 +55,42 @@ public class replyDB {
 
 		updateQuery(sql);
 
+	}
+
+	// 게시글에 해당하는 댓글 목록 가져오기
+	public ArrayList<Reply> getReplyListByArticleIdx(int articleIdx) {
+
+		String sql = String.format("SELECT * FROM articleReply WHERE articleIdx=%d", articleIdx);
+
+		return getReplyList(sql);
+	}
+
+	// 댓글 목록 가져오기(sql에 따라 한개 혹은 여러개)
+	private ArrayList<Reply> getReplyList(String sql) {
+
+		Connection conn = getConnection();
+
+		ArrayList<Reply> replyList = new ArrayList<>();
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				int idx = rs.getInt("idx");
+				String regDate = rs.getString("regDate");
+				int articleIdx = rs.getInt("articleIdx");
+				String body = rs.getString("body");
+				String name = rs.getString("name");
+
+				Reply reply = new Reply(idx, regDate, articleIdx, body, name);
+				replyList.add(reply);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return replyList;
 	}
 }
