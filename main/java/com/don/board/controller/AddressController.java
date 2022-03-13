@@ -1,6 +1,7 @@
 package com.don.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,8 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.don.board.model.address.Address;
+import com.don.board.model.address.AddressDB;
+
 @WebServlet("/address/*")
 public class AddressController extends HttpServlet {
+
+	AddressDB db = new AddressDB();
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -65,6 +71,14 @@ public class AddressController extends HttpServlet {
 
 			// 주소록 메뉴 페이지 보기
 			forward(request, response, "/Address/addrMenu.jsp");
+
+		} else if (func.equals("showAddrList")) {
+
+			ArrayList<Address> addressList = db.getAddresses();
+			request.setAttribute("addressList", addressList);
+
+			forward(request, response, "/Address/list.jsp");
+
 		}
 	}
 
