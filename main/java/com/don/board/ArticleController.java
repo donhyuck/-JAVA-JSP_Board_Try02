@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 public class ArticleController extends HttpServlet {
 
 	ArticleDB db = new ArticleDB();
+	replyDB rdb = new replyDB();
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -66,6 +67,10 @@ public class ArticleController extends HttpServlet {
 		} else if (func.equals("delete")) {
 
 			delete(request, response);
+
+		} else if (func.equals("replyWrite")) {
+
+			replyWrite(request, response);
 
 		}
 
@@ -160,8 +165,7 @@ public class ArticleController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String loginedUserName = (String) request.getAttribute("loginedUserName");
 
-		RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
-		rd.forward(request, response);
+		forward(request, response, "/Article/addForm.jsp");
 	}
 
 	// 게시글 수정 페이지 보기
@@ -182,6 +186,18 @@ public class ArticleController extends HttpServlet {
 		request.setAttribute("article", article);
 
 		forward(request, response, "/Article/showDetail.jsp");
+	}
+
+	private void replyWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+		String body = request.getParameter("body");
+		String name = request.getParameter("name");
+
+		rdb.replyWrite(articleIdx, body, name);
+
+		response.sendRedirect("/article/showDetail?idx=?" + articleIdx);
+
 	}
 
 	// 포워드(요청정보를 재사용)

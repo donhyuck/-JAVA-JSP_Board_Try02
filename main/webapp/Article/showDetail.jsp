@@ -33,6 +33,18 @@
 		<input type="hidden" name="idx" value="${ article.idx }">
 		<input type="submit" value="삭제">
 	</form>
+	<hr />
+		
+	<h3>댓글</h3>
+	<h5>
+	<form action="/article/replyWrite" method="POST">
+		${ loginedUserName }	<br />
+		<input type="text" name="body" placeholder="여기에 댓글을 작성하세요."/> <br />
+		<input type="hidden" name="articleIdx" value="article.idx">
+		<input type="hidden" name="name" value="${ loginedUserName }">
+		<input type="submit" value="댓글 남기기">
+	</form>
+	</h5>
 
 </body>
 </html>
