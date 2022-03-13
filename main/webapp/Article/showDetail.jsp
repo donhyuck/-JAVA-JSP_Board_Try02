@@ -24,6 +24,7 @@
 	</div>
 	<hr />
 	
+	<!-- 게시글 수정 및 삭제 영역 -->
 	<c:if test="${ article.name == loginedUserName }">
 		<div>
 			<form action="/article/showModifyForm">
