@@ -22,4 +22,11 @@ public class AddressDB {
 		cdb.updateQuery(sql);
 	}
 
+	public ArrayList<Address> getAddressListByName(String name) {
+
+		String sql = String.format("SELECT * FROM address WHERE `name`='%s'", name);
+
+		return cdb.selectList(sql, new AddressRowMapper());
+	}
+
 }

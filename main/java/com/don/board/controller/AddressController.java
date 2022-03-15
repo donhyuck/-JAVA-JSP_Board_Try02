@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.don.board.model.address.Address;
 import com.don.board.model.address.AddressDB;
+import com.don.board.model.article.Reply;
 
 @WebServlet("/address/*")
 public class AddressController extends HttpServlet {
@@ -64,8 +65,17 @@ public class AddressController extends HttpServlet {
 			String name = request.getParameter("name");
 
 			db.addressWrite(addr, phone, name);
-			
+
 			response.sendRedirect("/address/showAddrMenu");
+
+		} else if (func.equals("search")) {
+
+			// 주소록 검색하기
+			String name = request.getParameter("name");
+			ArrayList<Address> addressList = db.getAddressListByName(name);
+			request.setAttribute("addressList", addressList);
+
+			forward(request, response, "/Address/resultForm.jsp");
 		}
 	}
 
@@ -81,6 +91,7 @@ public class AddressController extends HttpServlet {
 
 		} else if (func.equals("showAddrList")) {
 
+			// 주소록 전체 목록 보기
 			ArrayList<Address> addressList = db.getAddresses();
 			request.setAttribute("addressList", addressList);
 
@@ -93,6 +104,16 @@ public class AddressController extends HttpServlet {
 			String loginedUserName = (String) request.getAttribute("loginedUserName");
 
 			forward(request, response, "/Address/addForm.jsp");
+
+		} else if (func.equals("showSearchForm")) {
+
+			// 주소록 검색 페이지 보기
+			forward(request, response, "/Address/searchForm.jsp");
+
+		} else if (func.equals("showResultForm")) {
+
+			// 주소록 검색결과 페이지 보기
+			forward(request, response, "/Address/resultForm.jsp");
 
 		}
 	}

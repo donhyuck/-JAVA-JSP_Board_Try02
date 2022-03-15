@@ -12,8 +12,8 @@
 	<%@ include file="addrHeader.jspf" %>
 	
 	<form action="/address/write" method="POST">
-		주 소 : <input type="text" name="addr">	<br />
-		연락처 : <input type="text" name="phone">	<br />
+		주 소 : <input type="text" name="addr" placeholder="입력 예시) 인천 서구">	<br />
+		연락처 : <input type="text" name="phone" placeholder="010-****-****">	<br />
 		성 명 : ${ loginedUserName }
 		<input type="hidden" name="name" value="${ loginedUserName }">	<br />
 		<input type="submit" value="등록"/>
