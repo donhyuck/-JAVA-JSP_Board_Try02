@@ -2,6 +2,7 @@ package com.don.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -96,6 +97,10 @@ public class AddressController extends HttpServlet {
 			// 주소록 검색결과 페이지 보기
 			forward(request, response, "/Address/resultForm.jsp");
 
+		} else if (func.equals("showMyAddrList")) {
+
+			showMyAddrList(request, response);
+
 		}
 	}
 
@@ -141,6 +146,20 @@ public class AddressController extends HttpServlet {
 		String loginedUserName = (String) request.getAttribute("loginedUserName");
 
 		forward(request, response, "/Address/addForm.jsp");
+	}
+
+	// 등록된 내 주소록 목록 페이지 보기
+	private void showMyAddrList(HttpServletRequest request, HttpServletResponse response) {
+
+		// 로그인 유저 정보 보내기
+		HttpSession session = request.getSession();
+		String loginedUserName = (String) request.getAttribute("loginedUserName");
+		
+		// 주소록 목록
+		ArrayList<Address> addressList = db.getAddresses();
+		request.setAttribute("addressList", addressList);
+
+		forward(request, response, "/Address/myAddrList.jsp");
 	}
 
 	// 포워드(요청정보를 재사용)
