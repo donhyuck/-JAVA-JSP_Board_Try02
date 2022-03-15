@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.don.board.model.address.Address;
 import com.don.board.model.address.AddressDB;
@@ -58,7 +59,13 @@ public class AddressController extends HttpServlet {
 		if (func.equals("write")) {
 
 			// 주소록 등록하기
+			String addr = request.getParameter("addr");
+			String phone = request.getParameter("phone");
+			String name = request.getParameter("name");
 
+			db.addressWrite(addr, phone, name);
+			
+			response.sendRedirect("/address/showAddrMenu");
 		}
 	}
 
@@ -78,6 +85,14 @@ public class AddressController extends HttpServlet {
 			request.setAttribute("addressList", addressList);
 
 			forward(request, response, "/Address/list.jsp");
+
+		} else if (func.equals("showAddForm")) {
+
+			// 로그인 유정 정보 보내기
+			HttpSession session = request.getSession();
+			String loginedUserName = (String) request.getAttribute("loginedUserName");
+
+			forward(request, response, "/Address/addForm.jsp");
 
 		}
 	}

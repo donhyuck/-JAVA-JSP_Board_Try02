@@ -128,3 +128,9 @@ CREATE TABLE address (
 
 # 전체 주소록 조회
 SELECT * FROM address;
+
+# 주소록 등록하기
+INSERT INTO address
+SET addr='서울',
+phone='010-0000-0000',
+`name`='관리자';
