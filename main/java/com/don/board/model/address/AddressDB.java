@@ -15,6 +15,7 @@ public class AddressDB {
 		return cdb.selectList(sql, new AddressRowMapper());
 	}
 
+	// 주소록 등록하기
 	public void addressWrite(String addr, String phone, String name) {
 
 		String sql = String.format("INSERT INTO address SET addr='%s', phone='%s', `name`='%s'", addr, phone, name);

@@ -59,41 +59,20 @@ public class AddressController extends HttpServlet {
 
 		if (func.equals("write")) {
 
-			// 주소록 등록하기
-			String addr = request.getParameter("addr");
-			String phone = request.getParameter("phone");
-			String name = request.getParameter("name");
-
-			db.addressWrite(addr, phone, name);
-
-			response.sendRedirect("/address/showAddrMenu");
+			write(request, response);
 
 		} else if (func.equals("searchByName")) {
 
-			// 이름으로 주소록 검색하기
-			String name = request.getParameter("name");
-			ArrayList<Address> addressList = db.getAddressListByName(name);
-			request.setAttribute("addressList", addressList);
-
-			forward(request, response, "/Address/resultForm.jsp");
+			searchByName(request, response);
 
 		} else if (func.equals("searchByAddr")) {
 
-			// 주소지로 주소록 검색하기
-			String addr = request.getParameter("addr");
-			ArrayList<Address> addressList = db.getAddressListByAddr(addr);
-			request.setAttribute("addressList", addressList);
-
-			forward(request, response, "/Address/resultForm.jsp");
+			searchByAddr(request, response);
 
 		} else if (func.equals("searchByPhone")) {
 
-			// 연락처로 주소록 검색하기
-			String phone = request.getParameter("phone");
-			ArrayList<Address> addressList = db.getAddressListByPhone(phone);
-			request.setAttribute("addressList", addressList);
+			searchByPhone(request, response);
 
-			forward(request, response, "/Address/resultForm.jsp");
 		}
 	}
 
@@ -109,19 +88,11 @@ public class AddressController extends HttpServlet {
 
 		} else if (func.equals("showAddrList")) {
 
-			// 주소록 전체 목록 보기
-			ArrayList<Address> addressList = db.getAddresses();
-			request.setAttribute("addressList", addressList);
-
-			forward(request, response, "/Address/list.jsp");
+			showAddrList(request, response);
 
 		} else if (func.equals("showAddForm")) {
 
-			// 로그인 유정 정보 보내기
-			HttpSession session = request.getSession();
-			String loginedUserName = (String) request.getAttribute("loginedUserName");
-
-			forward(request, response, "/Address/addForm.jsp");
+			showAddForm(request, response);
 
 		} else if (func.equals("showSearchForm")) {
 
@@ -134,6 +105,69 @@ public class AddressController extends HttpServlet {
 			forward(request, response, "/Address/resultForm.jsp");
 
 		}
+	}
+
+	// 주소록 등록하기
+	private void write(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		String addr = request.getParameter("addr");
+		String phone = request.getParameter("phone");
+		String name = request.getParameter("name");
+
+		db.addressWrite(addr, phone, name);
+
+		response.sendRedirect("/address/showAddrMenu");
+	}
+
+	// 이름으로 주소록 검색하기
+	private void searchByName(HttpServletRequest request, HttpServletResponse response) {
+
+		String name = request.getParameter("name");
+		ArrayList<Address> addressList = db.getAddressListByName(name);
+		request.setAttribute("addressList", addressList);
+
+		forward(request, response, "/Address/resultForm.jsp");
+
+	}
+
+	// 주소지로 주소록 검색하기
+	private void searchByAddr(HttpServletRequest request, HttpServletResponse response) {
+
+		String addr = request.getParameter("addr");
+		ArrayList<Address> addressList = db.getAddressListByAddr(addr);
+		request.setAttribute("addressList", addressList);
+
+		forward(request, response, "/Address/resultForm.jsp");
+
+	}
+
+	// 연락처로 주소록 검색하기
+	private void searchByPhone(HttpServletRequest request, HttpServletResponse response) {
+
+		String phone = request.getParameter("phone");
+		ArrayList<Address> addressList = db.getAddressListByPhone(phone);
+		request.setAttribute("addressList", addressList);
+
+		forward(request, response, "/Address/resultForm.jsp");
+	}
+
+	// 주소록 전체 목록 보기
+	private void showAddrList(HttpServletRequest request, HttpServletResponse response) {
+
+		ArrayList<Address> addressList = db.getAddresses();
+		request.setAttribute("addressList", addressList);
+
+		forward(request, response, "/Address/list.jsp");
+	}
+
+	// 주소록 등록 페이지 보기
+	private void showAddForm(HttpServletRequest request, HttpServletResponse response) {
+
+		// 로그인 유저 정보 보내기
+		HttpSession session = request.getSession();
+		String loginedUserName = (String) request.getAttribute("loginedUserName");
+
+		forward(request, response, "/Address/addForm.jsp");
 	}
 
 	// 포워드(요청정보를 재사용)
