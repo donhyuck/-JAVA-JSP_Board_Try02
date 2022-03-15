@@ -68,11 +68,29 @@ public class AddressController extends HttpServlet {
 
 			response.sendRedirect("/address/showAddrMenu");
 
-		} else if (func.equals("search")) {
+		} else if (func.equals("searchByName")) {
 
-			// 주소록 검색하기
+			// 이름으로 주소록 검색하기
 			String name = request.getParameter("name");
 			ArrayList<Address> addressList = db.getAddressListByName(name);
+			request.setAttribute("addressList", addressList);
+
+			forward(request, response, "/Address/resultForm.jsp");
+
+		} else if (func.equals("searchByAddr")) {
+
+			// 주소지로 주소록 검색하기
+			String addr = request.getParameter("addr");
+			ArrayList<Address> addressList = db.getAddressListByAddr(addr);
+			request.setAttribute("addressList", addressList);
+
+			forward(request, response, "/Address/resultForm.jsp");
+
+		} else if (func.equals("searchByPhone")) {
+
+			// 연락처로 주소록 검색하기
+			String phone = request.getParameter("phone");
+			ArrayList<Address> addressList = db.getAddressListByPhone(phone);
 			request.setAttribute("addressList", addressList);
 
 			forward(request, response, "/Address/resultForm.jsp");

@@ -134,3 +134,11 @@ INSERT INTO address
 SET addr='서울',
 phone='010-0000-0000',
 `name`='관리자';
+
+# 이름으로 주소록 검색하기
+SELECT * FROM address
+WHERE `name`='관리자';
+
+# 주소으로 주소록 검색하기
+SELECT * FROM address
+WHERE addr LIKE CONCAT('%', '인천', '%');

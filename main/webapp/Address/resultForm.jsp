@@ -13,7 +13,6 @@
 	
 	<a href="/address/showSearchForm">다시 검색하기</a>
 	<hr />
-	
 	<c:forEach items="${ addressList }" var="address">
 		번 호 : ${ address.idx }		<br />
 		주 소 : ${ address.addr }		<br />
