@@ -31,6 +31,7 @@ public class AddressDB {
 		return cdb.selectList(sql, new AddressRowMapper());
 	}
 
+	// 번호로 주소록 가져오기
 	public Address getAddressByIdx(int idx) {
 
 		String sql = String.format("SELECT * FROM address WHERE idx=%d", idx);
@@ -44,6 +45,15 @@ public class AddressDB {
 		String sql = String.format("UPDATE address SET addr='%s', phone='%s' WHERE idx=%d", addr, phone, idx);
 
 		cdb.updateQuery(sql);
+	}
+
+	// 주소록 삭제하기
+	public void addressDelete(int idx) {
+
+		String sql = String.format("DELETE FROM address WHERE idx=%d", idx);
+
+		cdb.updateQuery(sql);
+
 	}
 
 }

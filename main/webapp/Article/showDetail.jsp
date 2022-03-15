@@ -27,12 +27,12 @@
 	<!-- 게시글 수정 및 삭제 영역 -->
 	<c:if test="${ article.name == loginedUserName }">
 		<div>
-			<form action="/article/showModifyForm">
+			<form action="/article/showModifyForm" style="display:inline;">
 				<input type="hidden" name="idx" value="${ article.idx }">
 				<input type="submit" value="수정">
 			</form>
 	
-			<form action="/article/delete"  method="POST">
+			<form action="/article/delete"  method="POST" style="display:inline;">
 				<input type="hidden" name="idx" value="${ article.idx }">
 				<input type="submit" value="삭제">
 			</form>
@@ -62,12 +62,12 @@
 			<c:if test="${ reply.name == loginedUserName }">
 				<!-- 댓글 수정 및 삭제 영역 -->
 				<div>
-					<form action="/article/showReplyModifyForm">
+					<form action="/article/showReplyModifyForm" style="display:inline;">
 						<input type="hidden" name="idx" value="${ reply.idx }">
 						<input type="submit" value="수정">
 					</form>
 					
-					<form action="/article/replyDelete" method="POST">
+					<form action="/article/replyDelete" method="POST" style="display:inline;">
 						<input type="hidden" name="idx" value="${ reply.idx }">
 						<input type="hidden" name="articleIdx" value="${ reply.articleIdx }">
 						<input type="submit" value="삭제">

@@ -66,6 +66,14 @@ public class AddressController extends HttpServlet {
 
 			search(request, response);
 
+		} else if (func.equals("modify")) {
+
+			modify(request, response);
+
+		} else if (func.equals("delete")) {
+
+			delete(request, response);
+
 		}
 	}
 
@@ -101,6 +109,10 @@ public class AddressController extends HttpServlet {
 
 			showMyAddrList(request, response);
 
+		} else if (func.equals("showModifyForm")) {
+
+			showModifyForm(request, response);
+
 		}
 	}
 
@@ -129,6 +141,29 @@ public class AddressController extends HttpServlet {
 
 	}
 
+	// 주소록 수정하기
+	private void modify(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		String addr = request.getParameter("addr");
+		String phone = request.getParameter("phone");
+
+		db.addressModify(idx, addr, phone);
+
+		response.sendRedirect("/address/showMyAddrList");
+	}
+
+	// 주소록 삭제하기
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+
+		db.addressDelete(idx);
+
+		response.sendRedirect("/address/showMyAddrList");
+
+	}
+
 	// 주소록 전체 목록 보기
 	private void showAddrList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -154,12 +189,22 @@ public class AddressController extends HttpServlet {
 		// 로그인 유저 정보 보내기
 		HttpSession session = request.getSession();
 		String loginedUserName = (String) request.getAttribute("loginedUserName");
-		
+
 		// 주소록 목록
 		ArrayList<Address> addressList = db.getAddresses();
 		request.setAttribute("addressList", addressList);
 
 		forward(request, response, "/Address/myAddrList.jsp");
+	}
+
+	// 주소록 수정 페이지 보기
+	private void showModifyForm(HttpServletRequest request, HttpServletResponse response) {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		Address address = db.getAddressByIdx(idx);
+		request.setAttribute("address", address);
+
+		forward(request, response, "/Address/modifyForm.jsp");
 	}
 
 	// 포워드(요청정보를 재사용)

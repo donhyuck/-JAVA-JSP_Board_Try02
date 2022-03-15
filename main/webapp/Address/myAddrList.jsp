@@ -17,6 +17,17 @@
 			주 소 : ${ address.addr }		<br />
 			연락처 : ${ address.phone }	<br />
 			성 명 : ${ address.name }		<br />
+			
+			<form action="/address/showModifyForm" style="display:inline;">
+				<input type="hidden" name="idx" value="${ address.idx }">
+				<input type="submit" value="수정">
+			</form>
+			
+			<form action="/address/delete" method="POST" style="display:inline;">
+				<input type="hidden" name="idx" value="${ address.idx }">
+				<input type="submit" value="삭제">
+			</form>
+			<!-- style="display:inline;" 해당 코드로 inline속성을 부여한다. -->
 			<hr />
 		</c:if>
 	</c:forEach> 
