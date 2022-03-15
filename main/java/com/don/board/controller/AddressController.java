@@ -61,17 +61,9 @@ public class AddressController extends HttpServlet {
 
 			write(request, response);
 
-		} else if (func.equals("searchByName")) {
+		} else if (func.equals("search")) {
 
-			searchByName(request, response);
-
-		} else if (func.equals("searchByAddr")) {
-
-			searchByAddr(request, response);
-
-		} else if (func.equals("searchByPhone")) {
-
-			searchByPhone(request, response);
+			search(request, response);
 
 		}
 	}
@@ -119,36 +111,17 @@ public class AddressController extends HttpServlet {
 		response.sendRedirect("/address/showAddrMenu");
 	}
 
-	// 이름으로 주소록 검색하기
-	private void searchByName(HttpServletRequest request, HttpServletResponse response) {
+	// 주소록 검색하기
+	private void search(HttpServletRequest request, HttpServletResponse response) {
 
-		String name = request.getParameter("name");
-		ArrayList<Address> addressList = db.getAddressListByName(name);
+		String infoType = request.getParameter("infoType");
+		String keyword = request.getParameter("keyword");
+		ArrayList<Address> addressList = db.getAddressListByKeyword(infoType, keyword);
+
 		request.setAttribute("addressList", addressList);
 
 		forward(request, response, "/Address/resultForm.jsp");
 
-	}
-
-	// 주소지로 주소록 검색하기
-	private void searchByAddr(HttpServletRequest request, HttpServletResponse response) {
-
-		String addr = request.getParameter("addr");
-		ArrayList<Address> addressList = db.getAddressListByAddr(addr);
-		request.setAttribute("addressList", addressList);
-
-		forward(request, response, "/Address/resultForm.jsp");
-
-	}
-
-	// 연락처로 주소록 검색하기
-	private void searchByPhone(HttpServletRequest request, HttpServletResponse response) {
-
-		String phone = request.getParameter("phone");
-		ArrayList<Address> addressList = db.getAddressListByPhone(phone);
-		request.setAttribute("addressList", addressList);
-
-		forward(request, response, "/Address/resultForm.jsp");
 	}
 
 	// 주소록 전체 목록 보기

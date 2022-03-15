@@ -23,23 +23,10 @@ public class AddressDB {
 		cdb.updateQuery(sql);
 	}
 
-	public ArrayList<Address> getAddressListByName(String name) {
+	// 주소록 검색하기
+	public ArrayList<Address> getAddressListByKeyword(String infoType, String keyword) {
 
-		String sql = String.format("SELECT * FROM address WHERE `name` LIKE CONCAT('%%', '%s', '%%')", name);
-
-		return cdb.selectList(sql, new AddressRowMapper());
-	}
-
-	public ArrayList<Address> getAddressListByAddr(String addr) {
-
-		String sql = String.format("SELECT * FROM address WHERE addr LIKE CONCAT('%%', '%s', '%%')", addr);
-
-		return cdb.selectList(sql, new AddressRowMapper());
-	}
-
-	public ArrayList<Address> getAddressListByPhone(String phone) {
-
-		String sql = String.format("SELECT * FROM address WHERE phone LIKE CONCAT('%%', '%s', '%%')", phone);
+		String sql = String.format("SELECT * FROM address WHERE `%s` LIKE CONCAT('%%', '%s', '%%')", infoType, keyword);
 
 		return cdb.selectList(sql, new AddressRowMapper());
 	}
