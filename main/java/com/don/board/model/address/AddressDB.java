@@ -55,4 +55,13 @@ public class AddressDB {
 		cdb.updateQuery(sql);
 	}
 
+	// 본인의 주소록 목록 가져오기
+	public ArrayList<Address> getMyAddrListByName(String loginedUserName) {
+
+		String sql = String.format(
+				"SELECT a.* FROM address a LEFT JOIN `member` m ON a.name = m.name WHERE m.name='%s'", loginedUserName);
+
+		return cdb.selectList(sql, new AddressRowMapper());
+	}
+
 }

@@ -140,9 +140,7 @@ public class MemberController extends HttpServlet {
 	private void showJoinForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		RequestDispatcher rd = request.getRequestDispatcher("/Member/joinForm.jsp");
-		rd.forward(request, response);
-
+		forward(request, response, "/Member/joinForm.jsp");
 	}
 
 	// 회원 로그인 페이지 보기
@@ -150,7 +148,6 @@ public class MemberController extends HttpServlet {
 			throws ServletException, IOException {
 
 		forward(request, response, "/Member/loginForm.jsp");
-
 	}
 
 	// 로그아웃 처리
@@ -160,7 +157,6 @@ public class MemberController extends HttpServlet {
 		session.removeAttribute("loginedUserName");
 
 		response.sendRedirect("/article/showList");
-
 	}
 
 	// 포워드(요청정보를 재사용)

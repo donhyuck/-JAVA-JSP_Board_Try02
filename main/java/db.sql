@@ -141,4 +141,25 @@ WHERE `name`='관리자';
 
 # 주소으로 주소록 검색하기
 SELECT * FROM address
-WHERE addr LIKE CONCAT('%', '인천', '%');
+WHERE addr LIKE CONCAT('%', '서울', '%');
+
+# 번호로 주소록 가져오기
+SELECT * FROM address
+WHERE idx=1;
+
+# 주소록 수정하기
+UPDATE address
+SET addr='test',
+phone='010-test'
+WHERE idx=1;
+
+# 주소록 삭제하기
+DELETE FROM address
+WHERE idx=3;
+
+# 본인의 주소록 목록 가져오기
+SELECT a.*
+FROM address a
+LEFT JOIN `member` m
+ON a.name = m.name
+WHERE m.name='관리자';

@@ -184,17 +184,14 @@ public class AddressController extends HttpServlet {
 	// 등록된 내 주소록 목록 페이지 보기
 	private void showMyAddrList(HttpServletRequest request, HttpServletResponse response) {
 
-		// 로그인 유저 정보 보내기
+		// 로그인 유저 정보 받기
 		HttpSession session = request.getSession();
-		String loginedUserName = (String) request.getAttribute("loginedUserName");
+		String myName = (String) request.getParameter("loginedUserName");
 
-		// 주소록 목록
-		ArrayList<Address> addressList = db.getAddresses();
+		// 사용자 본인의 주소록 목록 가져오기
+		ArrayList<Address> myAddrList = db.getMyAddrListByName(myName);
 
-		// 본인 확인
-		// 확인된 주소록을 목록으로 보기
-
-		showList(request, response, addressList);
+		showList(request, response, myAddrList);
 	}
 
 	// 처리된 주소록 목록 보기
