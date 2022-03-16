@@ -53,7 +53,6 @@ public class AddressDB {
 		String sql = String.format("DELETE FROM address WHERE idx=%d", idx);
 
 		cdb.updateQuery(sql);
-
 	}
 
 }

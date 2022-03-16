@@ -97,13 +97,7 @@ public class AddressController extends HttpServlet {
 
 		} else if (func.equals("showSearchForm")) {
 
-			// 주소록 검색 페이지 보기
-			forward(request, response, "/Address/searchForm.jsp");
-
-		} else if (func.equals("showResultForm")) {
-
-			// 주소록 검색결과 페이지 보기
-			forward(request, response, "/Address/resultForm.jsp");
+			showSearchForm(request, response);
 
 		} else if (func.equals("showMyAddrList")) {
 
@@ -137,8 +131,7 @@ public class AddressController extends HttpServlet {
 
 		request.setAttribute("addressList", addressList);
 
-		forward(request, response, "/Address/resultForm.jsp");
-
+		showSearchForm(request, response);
 	}
 
 	// 주소록 수정하기
@@ -164,15 +157,6 @@ public class AddressController extends HttpServlet {
 
 	}
 
-	// 주소록 전체 목록 보기
-	private void showAddrList(HttpServletRequest request, HttpServletResponse response) {
-
-		ArrayList<Address> addressList = db.getAddresses();
-		request.setAttribute("addressList", addressList);
-
-		forward(request, response, "/Address/list.jsp");
-	}
-
 	// 주소록 등록 페이지 보기
 	private void showAddForm(HttpServletRequest request, HttpServletResponse response) {
 
@@ -181,6 +165,20 @@ public class AddressController extends HttpServlet {
 		String loginedUserName = (String) request.getAttribute("loginedUserName");
 
 		forward(request, response, "/Address/addForm.jsp");
+	}
+
+	// 주소록 검색 페이지 보기
+	private void showSearchForm(HttpServletRequest request, HttpServletResponse response) {
+
+		forward(request, response, "/Address/searchForm.jsp");
+	}
+
+	// 주소록 전체 목록 보기
+	private void showAddrList(HttpServletRequest request, HttpServletResponse response) {
+
+		ArrayList<Address> addressList = db.getAddresses();
+
+		showList(request, response, addressList);
 	}
 
 	// 등록된 내 주소록 목록 페이지 보기
@@ -192,9 +190,18 @@ public class AddressController extends HttpServlet {
 
 		// 주소록 목록
 		ArrayList<Address> addressList = db.getAddresses();
-		request.setAttribute("addressList", addressList);
 
-		forward(request, response, "/Address/myAddrList.jsp");
+		// 본인 확인
+		// 확인된 주소록을 목록으로 보기
+
+		showList(request, response, addressList);
+	}
+
+	// 처리된 주소록 목록 보기
+	private void showList(HttpServletRequest request, HttpServletResponse response, ArrayList<Address> addressList) {
+
+		request.setAttribute("addressList", addressList);
+		forward(request, response, "/Address/list.jsp");
 	}
 
 	// 주소록 수정 페이지 보기
