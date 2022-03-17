@@ -67,12 +67,15 @@ public class MemberController extends HttpServlet {
 
 			login(request, response);
 
+		} else if (func.equals("loginPwCheck.do")) {
+
+			loginPwCheck(request, response);
+
 		} else if (func.equals("loginPwChange.do")) {
 
 			loginPwChange(request, response);
 
 		}
-
 	}
 
 	// 자원을 가져올때 사용
@@ -145,6 +148,21 @@ public class MemberController extends HttpServlet {
 			System.out.println("로그인 실패");
 			response.sendRedirect("/article/showList");
 		}
+	}
+
+	// 비밀번호 확인하기
+	private void loginPwCheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		String name = request.getParameter("name");
+		String loginPw = request.getParameter("loginPw");
+		String loginPwCheck = request.getParameter("loginPwCheck");
+		String pwCheck = request.getParameter("pwCheck");
+
+		pwCheck = (loginPw.equals(loginPwCheck) ? "PASS" : "STOP");
+
+		request.setAttribute("pwCheck", pwCheck);
+
+		showLoginPwChangeForm(request, response);
 	}
 
 	// 비밀번호 변경하기
