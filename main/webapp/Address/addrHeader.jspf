@@ -10,6 +10,7 @@
 <body>
 
 	<a href="/article/showList">게시판 이동</a>	
+	<a href="/member/showMyInfo.do">내 정보 보기</a>	
 	<a href="/address/showAddrMenu">주소록 메뉴</a>		<br />
 	<hr />
 

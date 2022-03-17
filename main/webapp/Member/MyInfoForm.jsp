@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +12,10 @@
 	
 	<%@ include file="/Article/header.jspf" %>
 	
-	<b>기본정보</b>							<br />
-	이름 : ${ loginedUserName }				<br />
-	회원가입일 :			<br />
+	<b>기본정보</b>				<br />
+	이름 : ${ member.name }	<br />
+	회원가입일 : ${fn:substring(member.regDate, 0, 4)}년 ${fn:substring(member.regDate, 5, 7)}월 ${fn:substring(member.regDate, 8, 10)}일	 <br />
+	
 	<a href="#">비밀번호 변경</a>
 	<hr />
 	

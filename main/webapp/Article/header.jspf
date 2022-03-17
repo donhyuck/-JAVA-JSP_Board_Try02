@@ -9,10 +9,17 @@
 </head>
 <body>
 
-	<a href="/article/showList">공지사항</a>
-	<a href="/member/showMyInfo.do">내 정보 보기</a>
-	<a href="/address/showAddrMenu">주소록 메뉴</a>
-	<hr />
+	<form action="/article/showList" style="display: inline;">
+		<input type="submit" value="게시글 목록">
+	</form>
+	<form action="/member/showMyInfo.do" style="display: inline;">
+		<input type="hidden" name="loginedUserName" value="${ loginedUserName }">
+		<input type="submit" value="내 정보 보기">
+	</form>
+	<form action="/address/showAddrMenu" style="display: inline;">
+		<input type="submit" value="주소록 메뉴">
+	</form>
+	<br />
 
 	<c:choose>
 		<c:when test="${ loginedUserName == null }">

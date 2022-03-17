@@ -165,8 +165,16 @@ public class MemberController extends HttpServlet {
 	// 내 정보 페이지 보기
 	private void showMyInfo(HttpServletRequest request, HttpServletResponse response) {
 
-		forward(request, response, "/Member/MyInfoForm.jsp");
+		// 로그인 유저 정보 받기
+		String name = request.getParameter("loginedUserName");
 
+		// 이름으로 회원번호 , 회원번호로 회원객체 가져오기
+		int memberIdx = db.getMemberIdxByName(name);
+		Member member = db.getMemberBymemberIdx(memberIdx);
+
+		request.setAttribute("member", member);
+
+		forward(request, response, "/Member/MyInfoForm.jsp");
 	}
 
 	// 포워드(요청정보를 재사용)

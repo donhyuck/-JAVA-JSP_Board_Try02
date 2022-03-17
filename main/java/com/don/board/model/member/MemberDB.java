@@ -60,4 +60,28 @@ public class MemberDB {
 
 		return foundMember;
 	}
+
+	// 이름과 일치하는 회원번호 가져오기
+	public int getMemberIdxByName(String name) {
+
+		String sql = String.format("SELECT idx FROM `member` WHERE `name`='%s'", name);
+
+		Connection conn = cdb.getConnection();
+		int foundMemberIdx = 0;
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			if (rs.next()) {
+				foundMemberIdx = rs.getInt("idx");
+			}
+
+		} catch (Exception e) {
+			System.out.println("로그인 정보를 가져오는 중 문제 발생");
+		}
+
+		return foundMemberIdx;
+	}
+
 }
