@@ -143,7 +143,7 @@ public class AddressController extends HttpServlet {
 
 		db.addressModify(idx, addr, phone);
 
-		response.sendRedirect("/address/showMyAddrList");
+		response.sendRedirect("/address/showAddrList");
 	}
 
 	// 주소록 삭제하기
@@ -153,7 +153,7 @@ public class AddressController extends HttpServlet {
 
 		db.addressDelete(idx);
 
-		response.sendRedirect("/address/showMyAddrList");
+		response.sendRedirect("/address/showAddrList");
 
 	}
 

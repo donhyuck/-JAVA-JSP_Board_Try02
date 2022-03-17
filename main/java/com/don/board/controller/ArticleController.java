@@ -162,7 +162,6 @@ public class ArticleController extends HttpServlet {
 		rdb.replyWrite(articleIdx, body, name);
 
 		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
-
 	}
 
 	// 댓글 수정하기
@@ -173,6 +172,7 @@ public class ArticleController extends HttpServlet {
 		String body = request.getParameter("body");
 
 		rdb.replyModify(idx, body);
+
 		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
 	}
 
@@ -183,6 +183,7 @@ public class ArticleController extends HttpServlet {
 		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
 
 		rdb.replyDelete(idx);
+
 		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
 	}
 
@@ -205,7 +206,6 @@ public class ArticleController extends HttpServlet {
 		}
 
 		forward(request, response, "/Article/list.jsp");
-
 	}
 
 	// 게시글 등록 페이지보기

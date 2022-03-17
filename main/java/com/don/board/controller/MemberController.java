@@ -89,6 +89,10 @@ public class MemberController extends HttpServlet {
 
 			logout(request, response);
 
+		} else if (func.equals("showMyInfo.do")) {
+
+			showMyInfo(request, response);
+
 		}
 	}
 
@@ -102,7 +106,6 @@ public class MemberController extends HttpServlet {
 		db.memberJoin(loginId, loginPw, name);
 
 		response.sendRedirect("/article/showList");
-
 	}
 
 	// 로그인 처리
@@ -157,6 +160,13 @@ public class MemberController extends HttpServlet {
 		session.removeAttribute("loginedUserName");
 
 		response.sendRedirect("/article/showList");
+	}
+
+	// 내 정보 페이지 보기
+	private void showMyInfo(HttpServletRequest request, HttpServletResponse response) {
+
+		forward(request, response, "/Member/MyInfoForm.jsp");
+
 	}
 
 	// 포워드(요청정보를 재사용)
