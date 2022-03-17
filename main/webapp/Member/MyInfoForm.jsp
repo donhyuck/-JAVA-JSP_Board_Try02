@@ -16,7 +16,10 @@
 	이름 : ${ member.name }		<br />
 	회원가입일 : ${fn:substring(member.regDate, 0, 4)}년 ${fn:substring(member.regDate, 5, 7)}월 ${fn:substring(member.regDate, 8, 10)}일	 <br />
 	
-	<a href="#">비밀번호 변경</a>
+	<form action="/member/showLoginPwChangeForm.do">
+		<input type="hidden" name="loginedUserName" value="${ loginedUserName }">
+		<input type="submit" value="비밀번호 변경">
+	</form>
 	<hr />
 	
 	<b>나의 활동</b>				<br />

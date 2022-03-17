@@ -1,13 +1,9 @@
 package com.don.board.model.member;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import com.don.board.model.article.ArticleRowMapper;
 import com.don.board.model.article.CommonDB;
 
 public class MemberDB {
@@ -66,6 +62,14 @@ public class MemberDB {
 		String sql = String.format("SELECT * FROM `member` WHERE idx=%d", memberIdx);
 
 		return cdb.getOne(sql, new MemberRowMapper());
+	}
+
+	// 비밀번호 변경
+	public void loginPwChange(int idx, String newLoginPw) {
+
+		String sql = String.format("UPDATE `member` SET loginPw='%s' WHERE idx=%d", newLoginPw, idx);
+
+		cdb.updateQuery(sql);
 	}
 
 }

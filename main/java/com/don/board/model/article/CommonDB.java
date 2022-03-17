@@ -42,7 +42,7 @@ public class CommonDB {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("updateQuery 중 문제 발생");
 		}
 
 	}

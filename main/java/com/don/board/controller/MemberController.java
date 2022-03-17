@@ -67,6 +67,10 @@ public class MemberController extends HttpServlet {
 
 			login(request, response);
 
+		} else if (func.equals("loginPwChange.do")) {
+
+			loginPwChange(request, response);
+
 		}
 
 	}
@@ -92,6 +96,10 @@ public class MemberController extends HttpServlet {
 		} else if (func.equals("showMyInfo.do")) {
 
 			showMyInfo(request, response);
+
+		} else if (func.equals("showLoginPwChangeForm.do")) {
+
+			showLoginPwChangeForm(request, response);
 
 		}
 	}
@@ -139,6 +147,17 @@ public class MemberController extends HttpServlet {
 		}
 	}
 
+	// 비밀번호 변경하기
+	private void loginPwChange(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		String newLoginPw = request.getParameter("loginPw");
+
+		db.loginPwChange(idx, newLoginPw);
+
+		response.sendRedirect("/article/showList");
+	}
+
 	// 회원 가입 페이지 보기
 	private void showJoinForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -175,6 +194,17 @@ public class MemberController extends HttpServlet {
 		request.setAttribute("member", member);
 
 		forward(request, response, "/Member/MyInfoForm.jsp");
+	}
+
+	// 비밀번호 변경 페이지 보기
+	private void showLoginPwChangeForm(HttpServletRequest request, HttpServletResponse response) {
+
+		String name = request.getParameter("loginedUserName");
+		Member member = db.getMemberBymemberIdx(db.getMemberIdxByName(name));
+
+		request.setAttribute("member", member);
+
+		forward(request, response, "/Member/loginPwChangeForm.jsp");
 	}
 
 	// 포워드(요청정보를 재사용)
