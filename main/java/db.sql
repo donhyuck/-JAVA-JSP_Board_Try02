@@ -163,3 +163,21 @@ FROM address a
 LEFT JOIN `member` m
 ON a.name = m.name
 WHERE m.name='관리자';
+
+# 이름으로 회원불러오기
+SELECT * FROM `member`
+WHERE `name`='관리자';
+
+SELECT * FROM `member`;
+
+# 비밀번호 변경
+UPDATE `member`
+SET loginPw='test99'
+WHERE idx=5;
+
+# 내가 쓴 게시글
+SELECT a.* 
+FROM article a 
+LEFT JOIN `member` m 
+ON a.name = m.name 
+WHERE m.name='홍길동';

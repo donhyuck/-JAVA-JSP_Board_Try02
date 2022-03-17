@@ -48,4 +48,13 @@ public class ArticleDB {
 
 		cdb.updateQuery(sql);
 	}
+
+	// 본인 게시글 목록 가져오기
+	public ArrayList<Article> getMyArticleListByName(String loginedUserName) {
+
+		String sql = String.format(
+				"SELECT a.* FROM article a LEFT JOIN `member` m ON a.name = m.name WHERE m.name='%s'", loginedUserName);
+
+		return cdb.selectList(sql, new ArticleRowMapper());
+	}
 }

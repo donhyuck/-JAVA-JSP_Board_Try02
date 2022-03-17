@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.don.board.model.address.Address;
 import com.don.board.model.article.Article;
 import com.don.board.model.article.ArticleDB;
 import com.don.board.model.article.Reply;
@@ -97,7 +98,7 @@ public class ArticleController extends HttpServlet {
 
 		if (func.equals("showList")) {
 
-			showList(request, response);
+			showArticleList(request, response);
 
 		} else if (func.equals("showAddForm")) {
 
@@ -112,8 +113,12 @@ public class ArticleController extends HttpServlet {
 			showDetail(request, response);
 
 		} else if (func.equals("showReplyModifyForm")) {
-
+			
 			showReplyModifyForm(request, response);
+
+		} else if (func.equals("showMyArticleList")) {
+			
+			showMyArticleList(request, response);
 
 		}
 	}
@@ -127,7 +132,7 @@ public class ArticleController extends HttpServlet {
 
 		db.articleWrite(title, body, name);
 
-		showList(request, response);
+		showArticleList(request, response);
 	}
 
 	// 게시글 수정하기
@@ -187,11 +192,31 @@ public class ArticleController extends HttpServlet {
 		response.sendRedirect("/article/showDetail?idx=" + articleIdx);
 	}
 
-	// 게시글 목록보기
-	private void showList(HttpServletRequest request, HttpServletResponse response)
+	// 게시글 전체목록보기
+	private void showArticleList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		ArrayList<Article> articleList = db.getArticles(); // DB에서 데이터 받아올 틀
+
+		showList(request, response, articleList);
+	}
+
+	// 등록된 내 게시글 목록 페이지 보기
+	private void showMyArticleList(HttpServletRequest request, HttpServletResponse response) {
+
+		// 로그인 유저 정보 받기
+		HttpSession session = request.getSession();
+		String myName = (String) request.getParameter("loginedUserName");
+
+		// 사용자 본인의 게시글 목록 가져오기
+		ArrayList<Article> myArticleList = db.getMyArticleListByName(myName);
+
+		showList(request, response, myArticleList);
+	}
+
+	// 게시글 목록 보기
+	private void showList(HttpServletRequest request, HttpServletResponse response, ArrayList<Article> articleList) {
+
 		request.setAttribute("articleList", articleList); // request에 데이터를 담는다.
 
 		// 팝업 추가
