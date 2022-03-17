@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.don.board.model.article.ArticleRowMapper;
 import com.don.board.model.article.CommonDB;
 
 public class MemberDB {
@@ -27,38 +28,7 @@ public class MemberDB {
 
 		String sql = String.format("SELECT idx FROM `member` WHERE loginId='%s' AND loginPw='%s'", loginId, loginPw);
 
-		Connection conn = cdb.getConnection();
-		int foundMemberIdx = 0;
-
-		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-
-			if (rs.next()) {
-				foundMemberIdx = rs.getInt("idx");
-			}
-
-		} catch (Exception e) {
-			System.out.println("로그인 정보를 가져오는 중 문제 발생");
-		}
-
-		return foundMemberIdx;
-	}
-
-	// 회원번호에 해당하는 회원객체 가져오기
-	public Member getMemberBymemberIdx(int memberIdx) {
-
-		Member foundMember = null;
-
-		String sql = String.format("SELECT * FROM `member` WHERE idx=%d", memberIdx);
-
-		ArrayList<Member> memberList = cdb.selectList(sql, new MemberRowMapper()); // 전체 회원 중 회원번호와 일치하는 회원 가져오기
-
-		if (memberList.size() > 0) {
-			foundMember = memberList.get(0);
-		}
-
-		return foundMember;
+		return getMemberIdx(sql);
 	}
 
 	// 이름과 일치하는 회원번호 가져오기
@@ -66,22 +36,36 @@ public class MemberDB {
 
 		String sql = String.format("SELECT idx FROM `member` WHERE `name`='%s'", name);
 
+		return getMemberIdx(sql);
+	}
+
+	// 공통코드 처리, 회원번호 가져오기
+	private int getMemberIdx(String sql) {
+
 		Connection conn = cdb.getConnection();
-		int foundMemberIdx = 0;
+		int memberIdx = 0;
 
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (rs.next()) {
-				foundMemberIdx = rs.getInt("idx");
+				memberIdx = rs.getInt("idx");
 			}
 
 		} catch (Exception e) {
-			System.out.println("로그인 정보를 가져오는 중 문제 발생");
+			System.out.println("회원정보를 가져오는 중 문제 발생");
 		}
 
-		return foundMemberIdx;
+		return memberIdx;
+	}
+
+	// 회원번호에 해당하는 회원객체 가져오기
+	public Member getMemberBymemberIdx(int memberIdx) {
+
+		String sql = String.format("SELECT * FROM `member` WHERE idx=%d", memberIdx);
+
+		return cdb.getOne(sql, new MemberRowMapper());
 	}
 
 }
