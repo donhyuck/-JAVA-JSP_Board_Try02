@@ -153,12 +153,15 @@ public class MemberController extends HttpServlet {
 	// 비밀번호 확인하기
 	private void loginPwCheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		String name = request.getParameter("name");
 		String loginPw = request.getParameter("loginPw");
 		String loginPwCheck = request.getParameter("loginPwCheck");
-		String pwCheck = request.getParameter("pwCheck");
+		String pwCheck = null;
 
-		pwCheck = (loginPw.equals(loginPwCheck) ? "PASS" : "STOP");
+		if (loginPw.equals(loginPwCheck)) {
+			pwCheck = "PASS";
+		} else {
+			pwCheck = "STOP";
+		}
 
 		request.setAttribute("pwCheck", pwCheck);
 
